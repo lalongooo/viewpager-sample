@@ -23,6 +23,13 @@
         <dex dex="C:\jhernandez\dev\java\android\projects\ViewPagerSample\app\build\intermediates\pre-dexed\debug\support-annotations-22.0.0-333ebb6f6892cc4ec483958c351112682ac48655.jar" />
     </item>
     <item
+        jar="C:\jhernandez\dev\java\android\projects\ViewPagerSample\app\build\intermediates\exploded-aar\com.viewpagerindicator\library\2.4.1\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="88e8e18d365173ad04a543d76c157e0b644f0b3f">
+        <dex dex="C:\jhernandez\dev\java\android\projects\ViewPagerSample\app\build\intermediates\pre-dexed\debug\classes-dd52ca38091c103bd78eed785ab9aee3add7c3d7.jar" />
+    </item>
+    <item
         jar="C:\jhernandez\dev\java\android\projects\ViewPagerSample\app\build\intermediates\exploded-aar\com.android.support\support-v4\22.0.0\libs\internal_impl-22.0.0.jar"
         jumboMode="false"
         revision="22.0.1"

@@ -1,5 +1,6 @@
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_height="fill_parent"
     android:layout_width="fill_parent"
     android:fillViewport="true">
@@ -51,37 +52,22 @@
             android:layout_marginRight="10dp"
             android:id="@+id/start_messaging_button"/>
 
-        <LinearLayout
-            android:layout_width="wrap_content"
+
+
+        <com.viewpagerindicator.CirclePageIndicator
+            android:id="@+id/indicator"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/bottom_pages"
-            android:orientation="horizontal"
+            android:paddingBottom="20dp"
+            android:paddingTop="30dp"
             android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginBottom="26dp">
-
-            <FrameLayout
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:background="#bbbbbb"/>
-
-            <FrameLayout
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:background="#bbbbbb"
-                android:layout_marginLeft="7dp"/>
-
-            <FrameLayout
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:background="#bbbbbb"
-                android:layout_marginLeft="7dp"/>
-
-            <FrameLayout
-                android:layout_width="8dp"
-                android:layout_height="8dp"
-                android:background="#bbbbbb"
-                android:layout_marginLeft="7dp"/>
-        </LinearLayout>
+            android:layout_marginBottom="26dp"
+            app:fillColor="#2CA5E0"
+            app:pageColor="#ffffff"
+            app:radius="6dp"
+            app:strokeWidth="2dp"
+            app:strokeColor="#2CA5E0"
+            android:layout_alignParentBottom="true"/>
 
     </FrameLayout>
 

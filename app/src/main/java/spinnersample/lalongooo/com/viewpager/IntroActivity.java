@@ -27,13 +27,15 @@ import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.viewpagerindicator.CirclePageIndicator;
+import com.viewpagerindicator.PageIndicator;
+
 public class IntroActivity extends Activity {
     private ViewPager viewPager;
+    private PageIndicator indicator;
     private ImageView topImage1;
     private ImageView topImage2;
-    private ViewGroup bottomPages;
     private int lastPage = 0;
-    private boolean justCreated = false;
     private boolean startPressed = false;
     private int[] icons;
     private int[] messages;
@@ -69,84 +71,84 @@ public class IntroActivity extends Activity {
         }
         topImage1 = (ImageView) findViewById(R.id.icon_image1);
         topImage2 = (ImageView) findViewById(R.id.icon_image2);
-        bottomPages = (ViewGroup) findViewById(R.id.bottom_pages);
+        indicator = (CirclePageIndicator) findViewById(R.id.indicator);
+
         topImage2.setVisibility(View.GONE);
         viewPager.setAdapter(new IntroAdapter());
         viewPager.setPageMargin(0);
         viewPager.setOffscreenPageLimit(1);
-        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        indicator.setViewPager(viewPager);
+        indicator.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
-            }
+                if (lastPage != viewPager.getCurrentItem()) {
+                    lastPage = viewPager.getCurrentItem();
 
-            @Override
-            public void onPageSelected(int i) {
+                    final ImageView fadeoutImage;
+                    final ImageView fadeinImage;
+                    if (topImage1.getVisibility() == View.VISIBLE) {
+                        fadeoutImage = topImage1;
+                        fadeinImage = topImage2;
 
-            }
+                    } else {
+                        fadeoutImage = topImage2;
+                        fadeinImage = topImage1;
+                    }
 
-            @Override
-            public void onPageScrollStateChanged(int i) {
-                if (i == ViewPager.SCROLL_STATE_IDLE || i == ViewPager.SCROLL_STATE_SETTLING) {
-                    if (lastPage != viewPager.getCurrentItem()) {
-                        lastPage = viewPager.getCurrentItem();
+                    fadeinImage.bringToFront();
+                    fadeinImage.setImageResource(icons[lastPage]);
+                    fadeinImage.clearAnimation();
+                    fadeoutImage.clearAnimation();
 
-                        final ImageView fadeoutImage;
-                        final ImageView fadeinImage;
-                        if (topImage1.getVisibility() == View.VISIBLE) {
-                            fadeoutImage = topImage1;
-                            fadeinImage = topImage2;
-
-                        } else {
-                            fadeoutImage = topImage2;
-                            fadeinImage = topImage1;
+                    Animation outAnimation = AnimationUtils.loadAnimation(IntroActivity.this, R.anim.icon_anim_fade_out);
+                    outAnimation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
                         }
 
-                        fadeinImage.bringToFront();
-                        fadeinImage.setImageResource(icons[lastPage]);
-                        fadeinImage.clearAnimation();
-                        fadeoutImage.clearAnimation();
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            fadeoutImage.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+
+                    Animation inAnimation = AnimationUtils.loadAnimation(IntroActivity.this, R.anim.icon_anim_fade_in);
+                    inAnimation.setAnimationListener(new Animation.AnimationListener() {
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                            fadeinImage.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
 
 
-                        Animation outAnimation = AnimationUtils.loadAnimation(IntroActivity.this, R.anim.icon_anim_fade_out);
-                        outAnimation.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                                fadeoutImage.setVisibility(View.GONE);
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
-
-                            }
-                        });
-
-                        Animation inAnimation = AnimationUtils.loadAnimation(IntroActivity.this, R.anim.icon_anim_fade_in);
-                        inAnimation.setAnimationListener(new Animation.AnimationListener() {
-                            @Override
-                            public void onAnimationStart(Animation animation) {
-                                fadeinImage.setVisibility(View.VISIBLE);
-                            }
-
-                            @Override
-                            public void onAnimationEnd(Animation animation) {
-                            }
-
-                            @Override
-                            public void onAnimationRepeat(Animation animation) {
-
-                            }
-                        });
-
-
-                        fadeoutImage.startAnimation(outAnimation);
-                        fadeinImage.startAnimation(inAnimation);
-                    }
+                    fadeoutImage.startAnimation(outAnimation);
+                    fadeinImage.startAnimation(inAnimation);
                 }
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
             }
         });
 
@@ -158,58 +160,17 @@ public class IntroActivity extends Activity {
                 }
                 startPressed = true;
                 Intent intent2 = new Intent(IntroActivity.this, ActivityMain.class);
-                intent2.putExtra("fromIntro", true);
                 startActivity(intent2);
                 finish();
             }
         });
-
-        justCreated = true;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        if (justCreated) {
-            viewPager.setCurrentItem(0);
-            lastPage = 0;
-            justCreated = false;
-        }
     }
 
     private class IntroAdapter extends PagerAdapter {
+
         @Override
         public int getCount() {
             return 4;
-        }
-
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            View view = View.inflate(container.getContext(), R.layout.intro_view_layout, null);
-            TextView messageTextView = (TextView) view.findViewById(R.id.message_text);
-            container.addView(view, 0);
-            messageTextView.setText(AndroidUtilities.replaceTags(getString(messages[position]), getApplicationContext()));
-
-            return view;
-        }
-
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView((View) object);
-        }
-
-        @Override
-        public void setPrimaryItem(ViewGroup container, int position, Object object) {
-            super.setPrimaryItem(container, position, object);
-            int count = bottomPages.getChildCount();
-            for (int a = 0; a < count; a++) {
-                View child = bottomPages.getChildAt(a);
-                if (a == position) {
-                    child.setBackgroundColor(0xff2ca5e0);
-                } else {
-                    child.setBackgroundColor(0xffbbbbbb);
-                }
-            }
         }
 
         @Override
@@ -218,27 +179,17 @@ public class IntroActivity extends Activity {
         }
 
         @Override
-        public void finishUpdate(View arg0) {
+        public Object instantiateItem(ViewGroup container, int position) {
+            View view = View.inflate(container.getContext(), R.layout.intro_view_layout, null);
+            TextView messageTextView = (TextView) view.findViewById(R.id.message_text);
+            container.addView(view, 0);
+            messageTextView.setText(AndroidUtilities.replaceTags(getString(messages[position]), getApplicationContext()));
+            return view;
         }
 
         @Override
-        public void restoreState(Parcelable arg0, ClassLoader arg1) {
-        }
-
-        @Override
-        public Parcelable saveState() {
-            return null;
-        }
-
-        @Override
-        public void startUpdate(View arg0) {
-        }
-
-        @Override
-        public void unregisterDataSetObserver(DataSetObserver observer) {
-            if (observer != null) {
-                super.unregisterDataSetObserver(observer);
-            }
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            ((ViewPager) container).removeView((View) object);
         }
     }
 }
