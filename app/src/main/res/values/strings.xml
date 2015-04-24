@@ -3,9 +3,9 @@
 
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
-    <string name="app_overview_1st_item_text">Queremos que la información esté al alcance de todos</string>
-    <string name="app_overview_2nd_item_text">Creemos que nuestra solución hará a mas personas felices</string>
-    <string name="app_overview_3rd_item_text">Esperamos que encuentres pronto tu permuta&#8230;de verdad.</string>
-    <string name="app_overview_4th_item_text">Si crees importante este aporte, considera una donación.</string>
+    <string name="app_overview_1st_item_text">This is the first message we\'ll display in the viewpager</string>
+    <string name="app_overview_2nd_item_text">This is the second message we\'ll display in the viewpager</string>
+    <string name="app_overview_3rd_item_text">This is the third message we\'ll display in the viewpager</string>
+    <string name="app_overview_4th_item_text">This is the fourth message we\'ll display in the viewpager</string>
     <string name="StartMessaging">Start Messaging</string>
 </resources>
