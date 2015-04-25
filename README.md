@@ -1,4 +1,4 @@
-#An Intro Activity
+#Android Intro Activity
 
 The [**Telegram for Android**](https://github.com/DrKLO/Telegram) app shows a simple and nice Intro Activity.
 But it does not use a viewpager. It uses FrameLayout's, so I have added the viewpagerlibrary instead.
