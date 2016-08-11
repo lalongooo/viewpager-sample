@@ -5,7 +5,7 @@ But it does not use a viewpager. It uses FrameLayout's, so I have added the view
 
 Now, I think it looks nicer :)
 
-Also, I did this because I didn't found any examples on Internet of how to make an activity like this one.
+Also, I did this because I didn't find any examples on the web showing how to make an activity like this one.
 
 
 ![Image](https://raw.githubusercontent.com/lalongooo/viewpager-sample/master/screenshots/device-2015-04-24-110322.png)
